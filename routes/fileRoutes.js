@@ -1,9 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const authController = require('../controllers/authController');
 
 const {
   getAllFiles,
   createFile,
+  uploadFile,
   getFile,
   deleteFile,
   updateFile,
@@ -30,8 +32,10 @@ router.patch('/:id', authController.protect, updateFile);
 //Route for admin to create new file
 router.post(
   '/createfile',
+
   authController.protect,
   authController.restrictTo('admin'),
+  uploadFile,
   createFile,
 );
 

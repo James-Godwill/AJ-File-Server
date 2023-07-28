@@ -17,25 +17,46 @@ const signToken = (id) =>
     },
   );
 
-exports.signup = catchAsync(async (req, res, next) => {
-  const user = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-    passwordChangedAt: req.body.passwordChangedAt,
-    role: req.body.role,
-  });
-
+const createSendToken = (user, statusCode, res) => {
+  //Login user
   const token = signToken(user._id);
 
-  res.status(201).json({
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 34 * 60 * 60 * 1000,
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === 'production') {
+    cookieOptions.secure = true;
+  }
+
+  //Create cookie for server
+  res.cookie('jwt', token, cookieOptions);
+
+  user.password = undefined;
+
+  //Send user jwt token
+  res.status(statusCode).json({
     status: 'success',
     token,
     data: {
       user: user,
     },
   });
+};
+exports.signup = catchAsync(async (req, res, next) => {
+  const user = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: Date.now(),
+    role: req.body.role,
+  });
+
+  createSendToken(user, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -55,13 +76,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  const token = signToken(user._id);
-
-  //send user jwt token
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -195,17 +210,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetToken = undefined;
 
   await user.save();
+  //Update chagedPasswordAt property for the user with pre save middleware
 
-  const token = signToken(user._id);
-
-  //send user jwt token
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
-
-  //Update chagedPasswordAt property for the user
   //Log in user ,send JWT
+  createSendToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -239,12 +247,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   await user.save();
 
-  //Log in user
-  const token = signToken(user._id);
-
-  //send user jwt token
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
 });
