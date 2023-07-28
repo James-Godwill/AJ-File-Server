@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -10,6 +11,13 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
+
+//Setiing up pug templates out of the box
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 const fileRouter = require('./routes/fileRoutes');
 const userRouter = require('./routes/userRoutes');
 
@@ -44,7 +52,6 @@ app.use(mongoSanitize());
 app.use(xss());
 
 //serving static files
-app.use(express.static('./public'));
 
 //prevent parameter polution
 // app.use(hpp({
@@ -52,8 +59,13 @@ app.use(express.static('./public'));
 
 //   ]
 // }));
-
 //Data has to whitelisted when searching for files on the server
+
+
+//rendering pug templates
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 
 app.use((req, res, next) => {
   console.log(req.headers);

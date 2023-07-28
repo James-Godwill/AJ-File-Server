@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync');
 const multer = require('multer');
 const File = require('../models/fileModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 let filename;
 
@@ -40,7 +41,30 @@ exports.createFile = catchAsync(async (req, res, next) => {
 
 exports.deleteFile = (req, res) => {};
 
-exports.getFile = (req, res) => {};
+exports.searchFile = catchAsync(async (req, res, next) => {
+  const searchResult = req.params.name;
+
+  const regex = new RegExp(searchResult, 'i'); // i for case insensitive
+
+  const files = await File.find({
+    title: { $regex: regex },
+  });
+
+  console.log('files is', files);
+
+  if (files.length === 0) {
+    res.status(200).json({
+      success: true,
+      files,
+      message: 'No files found',
+    });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      files,
+    });
+  }
+});
 
 exports.updateFile = (req, res) => {};
 
