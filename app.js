@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const fileRouter = require('./routes/fileRoutes');
 const userRouter = require('./routes/userRoutes');
-
+const viewRouter = require('./routes/viewRoutes');
 //Set security http headers
 app.use(helmet());
 
@@ -61,16 +61,13 @@ app.use(xss());
 // }));
 //Data has to whitelisted when searching for files on the server
 
-
-//rendering pug templates
-app.get('/', (req, res) => {
-  res.status(200).render('base');
-});
-
 app.use((req, res, next) => {
   console.log(req.headers);
   next();
 });
+
+app.use('/', viewRouter);
+
 app.use('/aj/api/v1/files', fileRouter);
 
 app.use('/aj/api/v1/users', userRouter);

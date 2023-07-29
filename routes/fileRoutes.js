@@ -15,7 +15,6 @@ const app = express();
 
 const router = express.Router();
 
-
 //File Routes For File Server Projecte
 router.route('/').get(authController.protect, getAllFiles);
 

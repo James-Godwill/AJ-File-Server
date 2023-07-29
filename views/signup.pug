@@ -9,15 +9,22 @@ html(lang='en', dir='ltr')
     link(rel='stylesheet', href='css/style.css')
   body
     .wrapper
-      h2 Access Account
+      h2 Registration
       form(action='#')
+        .input-box
+          input(type='text', placeholder='Enter your name', required='')
         .input-box
           input(type='email', placeholder='Enter your email', required='')
         .input-box
           input(type='password', placeholder='Create password', required='')
+        .input-box
+          input(type='password', placeholder='Confirm password', required='')
+        .policy
+          input(type='checkbox')
+          h3 I accept all terms &amp; condition
         .input-box.button
-          input(type='Submit', value='Login')
+          input(type='Submit', value='Register Now')
         .text
           h3
-            | Not having an account? 
-            a(href='/signup') Register now
+            | Already have an account? 
+            a(href='/') Login now
