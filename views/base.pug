@@ -1,23 +1,27 @@
 doctype html
-// Coding By CodingNepal - codingnepalweb.com
 html(lang='en', dir='ltr')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title  Registration or Sign Up form in HTML CSS | CodingLab 
+    title Lizzy Store 
     |  
     link(rel='stylesheet', href='css/style.css')
   body
     .wrapper
       h2 Access Account
-      form(action='#')
+      form
         .input-box
-          input(type='email', placeholder='Enter your email', required='')
+          input#email(type='email', placeholder='Enter your email', required='')
         .input-box
-          input(type='password', placeholder='Create password', required='')
+          input#password(type='password', placeholder='Create password', required='')
         .input-box.button
           input(type='Submit', value='Login')
+        .forgot
+          h3
+            a(href='/forgotpassword') Forgot Password?
         .text
           h3
             | Not having an account? 
             a(href='/signup') Register now
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    script(src='/js/login.js')

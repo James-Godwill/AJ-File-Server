@@ -9,24 +9,16 @@ html(lang='en', dir='ltr')
     link(rel='stylesheet', href='css/style.css')
   body
     .wrapper
-      h2 Registration
+      h2 Forgot Password
       form
-        .input-box
-          input#username(type='text', placeholder='Enter your name', required='')
+       
         .input-box
           input#email(type='email', placeholder='Enter your email', required='')
-        .input-box
-          input#password(type='password', placeholder='Create password', required='')
-        .input-box
-          input#confirm-password(type='password', placeholder='Confirm password', required='')
-        .policy
-          input(type='checkbox')
-          h3 I accept all terms &amp; condition
         .input-box.button
-          input(type='Submit', value='Register Now')
+          input(type='Submit', value='Send Mail')
         .text
           h3
-            | Already have an account? 
+            | Remembered ? 
             a(href='/') Login now
       script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-      script(src='js/signup.js')
+      script(src='js/forgot-password.js')

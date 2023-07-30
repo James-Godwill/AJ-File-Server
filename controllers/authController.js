@@ -87,6 +87,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer ')
   ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   console.log(`token: ${token}`);
@@ -123,6 +125,38 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+//Only for rendered pages and no errors
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  //check if token is available
+
+  if (req.cookies.jwt) {
+    console.log(`token: ${req.cookies.jwt}`);
+
+    //Validate token
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET,
+    ); // Making it return a promise
+
+    //check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next();
+    }
+
+    //check if user changed password after issuing jwt
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+      return next();
+    }
+
+    //There is a logged in user
+    //Each pug template will have access to res.locals
+    res.locals.user = currentUser;
+    return next();
+  }
+  next();
+ });
+
 //Roles is an array to restrict to multiple roles
 exports.restrictTo =
   (...roles) =>
@@ -143,7 +177,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 
   const user = await User.findOne({
-    email: req.user.email,
+    email: req.body.email,
   });
 
   if (!user) {
