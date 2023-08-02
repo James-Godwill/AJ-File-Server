@@ -1,7 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const File = require('../models/fileModel');
+const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 const sendEmail = require('../utils/email');
 const catchAsync = require('../utils/catchAsync');
@@ -103,7 +105,29 @@ exports.createFile = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteFile = (req, res) => {};
+exports.downloadFile = catchAsync(async (req, res, next) => {
+  const folderPath = './public/uploads';
+
+  try {
+    const nameOfFile = req.params.filename;
+
+    res.download(`${folderPath}/${nameOfFile}`, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    const file = await File.findOne({
+      file: nameOfFile,
+    });
+
+    file.totalDownloads += 1;
+
+    await file.save();
+  } catch (err) {
+    return next(new AppError('Error Downloading file'));
+  }
+});
 
 exports.sendFileAsMail = catchAsync(async (req, res, next) => {
   try {
@@ -117,6 +141,14 @@ exports.sendFileAsMail = catchAsync(async (req, res, next) => {
       message: emessage,
       filename: eName,
     });
+
+    const file = await File.findOne({
+      file: eName,
+    });
+
+    file.totalMails += 1;
+
+    await file.save();
 
     res.status(200).json({
       status: 'success',

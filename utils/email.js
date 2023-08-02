@@ -22,7 +22,7 @@ const sendEmail = async (options) => {
       to: options.email,
       subject: options.subject,
       text: options.message,
-      html: '<h1>Regards </h1>< p >From Lizzy Store </p>',
+      html: '<h4>Regards</h4><p>And Thank you for using Lizzy Store </p>',
       attachments: [
         {
           filename: options.filename,
