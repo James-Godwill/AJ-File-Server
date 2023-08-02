@@ -1,0 +1,43 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='/css/feeds.css')
+
+    title Lizzy System Files
+header.site-header
+    .site-identity
+        h1
+            a(href='/feeds/default') Lizzy Server
+    nav.site-navigation
+        ul.nav
+          
+            li
+                a(href='/feeds/default') Feeds
+            li
+                a(href='#') Sign Out
+.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal')
+        span(aria-hidden='true') &times;
+        span.sr-only Close
+      h4#myModalLabel.modal-title Edit Resource
+    .modal-body
+      form
+        .form-group
+          label(for='title') Title
+          input#title.form-control(type='text' placeholder='Provide title' name='title')
+        .form-group
+          label(for='description') Description
+          input#description.form-control(type='text' placeholder='Provide description' name='description')
+        .form-group
+          label(for='myfile') Select File 
+          input#myfile(type='file' name='myfile')
+        button.btn.btn-primary(type='submit' name='asdf') Submit
+
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        script(src='/js/uploader.js')

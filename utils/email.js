@@ -11,12 +11,34 @@ const sendEmail = async (options) => {
     },
   });
   //Define the email options
-  const emailOptions = {
-    from: 'AJ File Server <james.arkoh@amalitech.org>',
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
+
+  let emailOptions;
+
+  if (options.filename) {
+    const folderPath = './public/uploads';
+
+    emailOptions = {
+      from: 'AJ File Server <james.arkoh@amalitech.org>',
+      to: options.email,
+      subject: options.subject,
+      text: options.message,
+      html: '<h1>Regards </h1>< p >From Lizzy Store </p>',
+      attachments: [
+        {
+          filename: options.filename,
+          path: `${folderPath}/${options.filename}`,
+          cid: `uniq-${options.filename}`,
+        },
+      ],
+    };
+  } else {
+    emailOptions = {
+      from: 'AJ File Server <james.arkoh@amalitech.org>',
+      to: options.email,
+      subject: options.subject,
+      text: options.message,
+    };
+  }
 
   //Send email with nodemailer
   await transporter.sendMail(emailOptions);

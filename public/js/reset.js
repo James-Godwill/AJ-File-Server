@@ -1,14 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-undef */
 console.log('Inside javascript');
+const url = window.location.href;
 
+console.log(url);
 const resetPassword = async (password, passwordConfirm) => {
   //Using axios to make our api requests
-  console.log(email);
   try {
     const res = await axios({
       method: 'PATCH',
-      url: 'http://127.0.0.1:3000/aj/api/v1/users/signup',
+      url: url,
       data: {
         password: password,
         passwordConfirm: passwordConfirm,

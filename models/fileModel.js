@@ -14,6 +14,11 @@ const fileSchema = mongoose.Schema({
     type: 'string',
     required: [true, 'Please upload a file'],
   },
+  fileType: {
+    type: 'string',
+  },
+  createdAt: String,
+  fileSize: String,
   totalDownloads: Number,
   totalMails: Number,
 });

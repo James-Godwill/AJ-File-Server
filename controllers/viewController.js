@@ -7,12 +7,32 @@ exports.signup = (req, res) => {
 };
 
 exports.getAllFiles = catchAsync(async (req, res) => {
-  const files = await File.find();
+  let files;
+
+  const searchResult = req.params.title;
+
+  console.log(searchResult);
+
+  const regex = new RegExp(searchResult, 'i'); // i for case insensitive
+
+  if (searchResult === 'default') {
+    files = await File.find();
+  } else if (searchResult !== 'null') {
+    files = await File.find({
+      title: { $regex: regex },
+    });
+  }
+
+  console.log(files);
 
   res.status(200).render('feeds', {
-    files,
+    files: files,
   });
 });
+
+exports.upload = (req, res) => {
+  res.status(200).render('uploader');
+};
 
 exports.forgot = (req, res) => {
   res.status(200).render('forgot');

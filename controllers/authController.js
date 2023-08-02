@@ -155,7 +155,40 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
     return next();
   }
   next();
- });
+});
+
+exports.isAdmin = catchAsync(async (req, res, next) => {
+  //check if token is available
+
+  if (req.cookies.jwt) {
+    //Validate token
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET,
+    ); // Making it return a promise
+
+    //check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403),
+      );
+    }
+
+    //check if user changed password after issuing jwt
+    if (currentUser.role !== 'admin') {
+      return next(
+        new AppError('You do not have permission to perform this action', 403),
+      );
+    }
+
+    //There is a logged in user
+    //Each pug template will have access to res.locals
+    res.locals.user = currentUser;
+    return next();
+  }
+  next();
+});
 
 //Roles is an array to restrict to multiple roles
 exports.restrictTo =
@@ -166,6 +199,7 @@ exports.restrictTo =
         new AppError('You do not have permission to perform this action', 403),
       );
     }
+
     next();
   };
 
@@ -195,7 +229,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   console.log(resetURL);
 
-  const message = `Forgot your password? submit a patch request with your new password and password confirm to:${resetURL}\nIf you did not forget your password,please ignore this message`;
+  const message = `Forgot your password? submit your new password and password confirm to:${resetURL}\nIf you did not forget your password,please ignore this message`;
 
   try {
     await sendEmail({

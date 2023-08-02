@@ -1,0 +1,72 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='/css/feeds.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+
+    title Lizzy System Files
+header.site-header
+    .site-identity
+        h1
+            a(href='#') Lizzy Server
+    nav.site-navigation
+        ul.nav
+            if user.role === 'admin'
+                li
+                    a(href='/upload') Upload File
+            li
+                a(href='#') Sign Out
+.wrap
+    .search
+        input.find.searchTerm(type='text' placeholder='What are you looking for?')
+        button.btnSearch.searchButton(type='submit')
+            i.fa.fa-search
+.container
+    .row
+        .col-lg-12.col-md-12.col-sm-12.sidebar-page-container
+            .sidebar
+                .sidebar-widget.sidebar-post
+                    .widget-title
+                        br 
+                        br
+                        br
+                        br
+                    .post-inner
+                        .carousel-inner-data
+                            ul  
+                                each file in files
+                                    li
+                                        .post
+                                            .post-date                                        
+                                                p=file.createdAt.split('/')[1]
+                                                span=file.createdAt.split('/')[0]
+                                                span=file.createdAt.split('/')[2]
+
+                                            .file-box
+                                                i.far.fa-folder-open
+                                                p=file.title
+                                            h5
+                                                a.noHover.description(href='#')
+                                                    =file.description
+                                            h5
+                                                a.noHover(href='#')= `File Type: ${file.fileType}`
+                                            h5
+                                                a.noHover(href='#')= `File Size: ${file.fileSize}`
+                                            if user.role === 'user'
+                                                div
+                                                 button.btn.btn-primary(type='submit' name='download' onclick=`window.location.href = '/aj/api/v1/files/single/${file.file}';` target="_blank") Download
+                                                span=OR
+                                                div
+                                                 input(type='email' name='file' placeholder='Email to send file')
+                                                 button.btn.btn-primary(type='submit' name='mailsubmit' onclick=`window.location.href = '/aj/api/v1/files/sendMail/${file.file}';` target="_blank") Send
+                                                
+                                            if user.role === 'admin'
+                                                h5
+                                                    a.noHover(href='#')= `Downloads: ${file.totalDownloads}`
+                                                h5
+                                                    a.noHover(href='#')= `Total Mails: ${file.totalMails}`
+                                        hr
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        script(src='/js/feeds.js')

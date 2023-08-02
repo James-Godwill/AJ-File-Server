@@ -9,6 +9,7 @@
   },
   "author": "James Godwill Arkoh",
   "license": "ISC",
+  
   "dependencies": {
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",

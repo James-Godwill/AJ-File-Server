@@ -1,10 +1,22 @@
 const express = require('express');
 const viewController = require('../controllers/viewController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router.get('/signup', viewController.signup);
+
+router.get(
+  '/feeds/:title',
+  authController.isLoggedIn,
+  viewController.getAllFiles,
+);
+
 router.get('/forgotpassword', viewController.forgot);
-router.get('/resetpassword/:tokrn', viewController.reset);
+
+router.get('/aj/api/v1/users/resetpassword/:token', viewController.reset);
+
 router.get('/', viewController.base);
+
+router.get('/upload', authController.isAdmin, viewController.upload);
 module.exports = router;

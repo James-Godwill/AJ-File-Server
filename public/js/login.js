@@ -18,7 +18,7 @@ const signIn = async (email, password) => {
     if (res.data.status === 'success') {
       alert('Login successful');
       window.setTimeout(() => {
-        location.assign('/signup');
+        location.assign('/feeds/default');
       }, 1500);
     }
 
