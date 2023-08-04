@@ -1,0 +1,26 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='/css/feeds.css')
+
+    title Lizzy System Files
+header.site-header
+    .site-identity
+        h1
+            a(href='/feeds/default') Lizzy Server
+    nav.site-navigation
+        ul.nav
+          
+            li
+                a(href='/feeds/default') Feeds
+            li
+                a(href='#') Sign Out
+body.containers
+ .center-preview
+   h1=Previewer
+   object(data=`/uploads/${path}` width='100%' height='600')
+
+
+ 

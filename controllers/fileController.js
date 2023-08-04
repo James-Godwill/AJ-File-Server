@@ -131,19 +131,23 @@ exports.downloadFile = catchAsync(async (req, res, next) => {
 
 exports.sendFileAsMail = catchAsync(async (req, res, next) => {
   try {
-    const eName = req.params.email;
+    const fileName = req.params.objectName;
+    const email = req.params.receiverEmail;
+
+    console.log('file name is ', fileName);
+    console.log('email is ', email);
 
     const emessage = 'Attached is the the file you requested';
 
     await sendEmail({
-      email: 'jamesgodwillarkoh@gmail.com',
+      email: email,
       subject: 'FILE REQUEST SUBMISSION',
       message: emessage,
-      filename: eName,
+      filename: fileName,
     });
 
     const file = await File.findOne({
-      file: eName,
+      file: fileName,
     });
 
     file.totalMails += 1;

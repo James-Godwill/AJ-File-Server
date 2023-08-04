@@ -25,7 +25,7 @@ router.route('/').get(authController.protect, getAllFiles);
 router.get('/single/:filename', downloadFile);
 
 //Code to implement email sending to user
-router.get('/sendMail/:email', sendFileAsMail);
+router.get('/sendMail/:objectName/:receiverEmail', sendFileAsMail);
 
 //Route for users to search a file from server
 router.route('/:name').get(authController.protect, searchFile);

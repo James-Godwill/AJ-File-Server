@@ -195,3 +195,15 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endCo
     /* background-color: rgb(240, 116, 116); */
     
     }
+
+
+/* Preview Screen*/
+.center-preview{
+  margin-top: auto;
+  margin-bottom: 50%;
+}
+
+body.containers{
+  text-align: center;
+
+}

@@ -1,35 +1,6 @@
-console.log('Inside javascript');
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-undef */
-// const uploadFile = async (email, password) => {
-//   //Using axios to make our api requests
-//   console.log(email);
-//   try {
-//     const res = await axios({
-//       method: 'POST',
-//       url: 'http://127.0.0.1:3000/aj/api/v1/users/login',
-//       data: {
-//         email: email,
-//         password: password,
-//       },
-//     });
-
-//     if (res.data.status === 'success') {
-//       alert('Login successful');
-//       window.setTimeout(() => {
-//         location.assign('/feeds/default');
-//       }, 1500);
-//     }
-
-//     console.log(res);
-//   } catch (err) {
-//     alert(err.response.data.message);
-//   }
-// };
-
 const uploadFile = async (formData) => {
   try {
-    const resNew = axios.post(
+    const resNew = await axios.post(
       'http://127.0.0.1:3000/aj/api/v1/files/createFile',
       formData,
       {
@@ -38,9 +9,13 @@ const uploadFile = async (formData) => {
         },
       },
     );
-    console.log(resNew.response.data);
+    if (resNew.data.status === 'success') {
+      alert('File Upload Successful');
+    }
   } catch (err) {
-    console.log(err.response);
+    alert(err.response.data.message);
+
+    // console.log(err);
   }
 };
 

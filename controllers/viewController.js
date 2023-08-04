@@ -1,4 +1,5 @@
 //rendering pug template
+const path = require('path');
 const catchAsync = require('../utils/catchAsync');
 const File = require('../models/fileModel');
 
@@ -29,6 +30,14 @@ exports.getAllFiles = catchAsync(async (req, res) => {
     files: files,
   });
 });
+
+exports.preview = async (req, res) => {
+  const filename = req.params.prevfile;
+
+  res.status(200).render('preview', {
+    path: filename,
+  });
+};
 
 exports.upload = (req, res) => {
   res.status(200).render('uploader');

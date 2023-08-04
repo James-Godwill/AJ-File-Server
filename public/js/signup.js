@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-undef */
-console.log('Inside javascript');
 
 const signup = async (username, email, password, passwordConfirm) => {
   //Using axios to make our api requests
@@ -17,9 +16,14 @@ const signup = async (username, email, password, passwordConfirm) => {
       },
     });
 
-    console.log(res);
+    if (res.data.status === 'success') {
+      alert('Account Creation Successful');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
   } catch (err) {
-    console.log(err);
+    alert(err.response.data.message);
   }
 };
 
