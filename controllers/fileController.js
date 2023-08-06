@@ -154,10 +154,7 @@ exports.sendFileAsMail = catchAsync(async (req, res, next) => {
 
     await file.save();
 
-    res.status(200).json({
-      status: 'success',
-      message: 'Token sent successfully to email address',
-    });
+    alert('Email Delivery Successful');
   } catch (err) {
     return next(
       new AppError('There was an error sending email,try again later', 500),

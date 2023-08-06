@@ -22,6 +22,8 @@ exports.getAllFiles = catchAsync(async (req, res) => {
     files = await File.find({
       title: { $regex: regex },
     });
+  } else {
+    files = [];
   }
 
   console.log(files);

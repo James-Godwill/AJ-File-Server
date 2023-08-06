@@ -1,10 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-undef */
-console.log('Inside javascript');
 
 const forgotPassword = async (emails) => {
   //Using axios to make our api requests
-  console.log(email);
   try {
     const res = await axios({
       method: 'POST',

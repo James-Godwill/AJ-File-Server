@@ -12,6 +12,9 @@ module.exports = (err, req, res, next) => {
       stact: err.stack,
     });
   } else {
+    window.setTimeout(() => {
+      location.assign('/');
+    }, 1500);
     res.status.json({
       status: 'error',
       message: 'Something went wrong!',

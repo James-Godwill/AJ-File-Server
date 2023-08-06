@@ -5,6 +5,7 @@ const fileSchema = mongoose.Schema({
   title: {
     type: 'string',
     required: [true, 'Please provide a title'],
+    unique: true,
   },
   description: {
     type: 'string',

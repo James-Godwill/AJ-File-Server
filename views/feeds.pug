@@ -17,7 +17,9 @@ header.site-header
                 li
                     a(href='/upload') Upload File
             li
-                a(href='#') Sign Out
+                a(href='/feeds/default') Feeds
+            li 
+                a.logout(href='/') Sign Out
 .wrap
     .search
         input.find.searchTerm(type='text' placeholder='What are you looking for?')
@@ -36,39 +38,43 @@ header.site-header
                     .post-inner
                         .carousel-inner-data
                             ul  
-                                each file in files
-                                    li
-                                        .post
-                                            .post-date                                        
-                                                p=file.createdAt.split('/')[1]
-                                                span=file.createdAt.split('/')[0]
-                                                span=file.createdAt.split('/')[2]
+                                if files.length <= 0
+                                    h1 No File Found
+                                if files.length > 0
+                                    each file in files
+                                        li
+                                            .post
+                                                .post-date                                        
+                                                    p=file.createdAt.split('/')[1]
+                                                    span=file.createdAt.split('/')[0]
+                                                    span=file.createdAt.split('/')[2]
 
-                                            .file-box
-                                                i.far.fa-folder-open
-                                                p=file.title
-                                            h5
-                                                a.noHover.description(href='#')
-                                                    =file.description
-                                            h5
-                                                a.noHover(href='#')= `File Type: ${file.fileType}`
-                                            h5
-                                                a.noHover(href='#')= `File Size: ${file.fileSize}`
-                                            if user.role === 'user'
-                                                div
-                                                 button.btn.btn-primary(type='submit' name='preview' onclick=`window.location.href = '/previewer/${file.file}';` target="_blank") Preview
-                                                div
-                                                 button.btn.btn-primary(type='submit' name='download' onclick=`window.location.href = '/aj/api/v1/files/single/${file.file}';` target="_blank") Download
-                                                span=OR
-                                                div
-                                                 input.emailValue(type='email' name='file' placeholder='Email to send file')
-                                                 button.btn.btn-primary(type='submit' name='mailsubmit' onclick=`let email = document.querySelector('.emailValue').value; console.log('Value is',email); window.location.href = \`/aj/api/v1/files/sendMail/${file.file}/\${email}\`;` target="_blank") Send
-                                                 
-                                            if user.role === 'admin'
+                                                .file-box
+                                                    i.far.fa-folder-open
+                                                    p=file.title
                                                 h5
-                                                    a.noHover(href='#')= `Downloads: ${file.totalDownloads}`
+                                                    a.noHover.description(href='#')
+                                                        =file.description
                                                 h5
-                                                    a.noHover(href='#')= `Total Mails: ${file.totalMails}`
-                                        hr
-        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-        script(src='/js/feeds.js')
+                                                    a.noHover(href='#')= `File Type: ${file.fileType}`
+                                                h5
+                                                    a.noHover(href='#')= `File Size: ${file.fileSize}`
+                                                if user.role === 'user'
+                                                    div
+                                                    button.btn.btn-primary(type='submit' name='preview' onclick=`window.location.href = '/previewer/${file.file}';` target="_blank") Preview
+                                                    div
+                                                    button.btn.btn-primary(type='submit' name='download' onclick=`window.location.href = '/aj/api/v1/files/single/${file.file}';` target="_blank") Download
+                                                    span=OR
+                                                    div
+                                                    input.emailValue(type='email' name='file' placeholder='Email to send file')
+                                                    button.btn.btn-primary(type='submit' name='mailsubmit' onclick=`let email = document.querySelector('.emailValue').value; console.log('Value is',email); window.location.href = \`/aj/api/v1/files/sendMail/${file.file}/\${email}\`;` target="_blank") Send
+                                                    
+                                                if user.role === 'admin'
+                                                    h5
+                                                        a.noHover(href='#')= `Downloads: ${file.totalDownloads}`
+                                                    h5
+                                                        a.noHover(href='#')= `Total Mails: ${file.totalMails}`
+                                            hr
+                                
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    script(src='/js/feeds.js')

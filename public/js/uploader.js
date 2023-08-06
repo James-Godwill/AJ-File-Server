@@ -1,3 +1,24 @@
+const form = document.querySelector('form');
+const searchBtn = document.querySelector('.btnSearch');
+const signoutBtn = document.querySelector('.logout');
+
+const signOut = async () => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:3000/aj/api/v1/users/logout',
+    });
+
+    if (res.data.status === 'success') {
+      location.assign('/');
+    }
+
+    console.log(res);
+  } catch (err) {
+    alert(err.response.data.message);
+  }
+};
+
 const uploadFile = async (formData) => {
   try {
     const resNew = await axios.post(
@@ -18,8 +39,6 @@ const uploadFile = async (formData) => {
     // console.log(err);
   }
 };
-
-const form = document.querySelector('form');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -47,4 +66,8 @@ form.addEventListener('submit', (e) => {
 
   //   const email = document.getElementById('email').value;
   //   const password = document.getElementById('password').value;
+});
+
+signoutBtn.addEventListener('click', () => {
+  signOut();
 });
