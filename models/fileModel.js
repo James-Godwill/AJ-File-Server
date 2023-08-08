@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const fileSchema = mongoose.Schema({
-  title: {
+  fileTitle: {
     type: 'string',
     required: [true, 'Please provide a title'],
     unique: true,
@@ -24,5 +24,5 @@ const fileSchema = mongoose.Schema({
   totalMails: Number,
 });
 
-const File = mongoose.model('File', fileSchema);
+const File = mongoose.model('Files', fileSchema);
 module.exports = File;

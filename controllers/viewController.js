@@ -20,7 +20,7 @@ exports.getAllFiles = catchAsync(async (req, res) => {
     files = await File.find();
   } else if (searchResult !== 'null') {
     files = await File.find({
-      title: { $regex: regex },
+      fileTitle: { $regex: regex },
     });
   } else {
     files = [];

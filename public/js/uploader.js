@@ -42,12 +42,13 @@ const uploadFile = async (formData) => {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+
   const formData = new FormData();
   const imagefile = document.querySelector('#myfile');
-  const title = document.querySelector('#title').value;
+  const fileTitle = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
-  formData.append('title', title);
-  formData.append('description', 'This is my new book');
+  formData.append('fileTitle', fileTitle);
+  formData.append('description', description);
   formData.append('file', imagefile.files[0]);
 
   console.log(imagefile.files[0]);
@@ -60,7 +61,10 @@ form.addEventListener('submit', (e) => {
   //       'Content-Type': 'multipart/form-data',
   //     },
   //   });
+
   uploadFile(formData);
+
+  form.reset();
 
   //   console.log('iNSIDE')
 

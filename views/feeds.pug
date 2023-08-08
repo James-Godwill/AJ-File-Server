@@ -41,7 +41,7 @@ header.site-header
                                 if files.length <= 0
                                     h1 No File Found
                                 if files.length > 0
-                                    each file in files
+                                    each file,index in files
                                         li
                                             .post
                                                 .post-date                                        
@@ -61,13 +61,24 @@ header.site-header
                                                     a.noHover(href='#')= `File Size: ${file.fileSize}`
                                                 if user.role === 'user'
                                                     div
-                                                    button.btn.btn-primary(type='submit' name='preview' onclick=`window.location.href = '/previewer/${file.file}';` target="_blank") Preview
+                                                     button.btn.btn-primary(type='submit' name='preview' onclick=`window.location.href = '/previewer/${file.file}';` target="_blank") Preview
                                                     div
-                                                    button.btn.btn-primary(type='submit' name='download' onclick=`window.location.href = '/aj/api/v1/files/single/${file.file}';` target="_blank") Download
-                                                    span=OR
+                                                     button.btn.btn-primary(type='submit' name='download' onclick=`window.location.href = '/aj/api/v1/files/single/${file.file}';` target="_blank") Download
+                                                     span=OR
+                                                     
+                                                     
                                                     div
-                                                    input.emailValue(type='email' name='file' placeholder='Email to send file')
-                                                    button.btn.btn-primary(type='submit' name='mailsubmit' onclick=`let email = document.querySelector('.emailValue').value; console.log('Value is',email); window.location.href = \`/aj/api/v1/files/sendMail/${file.file}/\${email}\`;` target="_blank") Send
+                                                     input.emailValue(type='email' name='file' placeholder='Email to send file')
+                                                    
+                                                     button.btn.btn-primary(type='submit' name='mailsubmit' onclick=`let email = document.querySelectorAll('.emailValue');
+                                                      let emailValue = [];
+                                                      console.log('Value is',email);  
+                                                      for (var i=0;i<email.length;i++) {
+                                                      emailValue.push(email[i].value);
+                                                      } 
+                                                      window.location.href = \`/aj/api/v1/files/sendMail/${file.file}/\${emailValue[${index}]}\`;
+
+                                                      ` target="_blank") Send
                                                     
                                                 if user.role === 'admin'
                                                     h5

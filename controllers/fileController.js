@@ -88,7 +88,7 @@ exports.createFile = catchAsync(async (req, res, next) => {
   const fullDay = `${monthName}/${day}/${year}`;
 
   const files = await File.create({
-    title: req.body.title,
+    fileTitle: req.body.fileTitle,
     description: req.body.description,
     file: fileName,
     totalDownloads: 0,
@@ -154,8 +154,11 @@ exports.sendFileAsMail = catchAsync(async (req, res, next) => {
 
     await file.save();
 
-    alert('Email Delivery Successful');
+    res.status(200).render('sent', {
+      email: email,
+    });
   } catch (err) {
+    console.log(err);
     return next(
       new AppError('There was an error sending email,try again later', 500),
     );

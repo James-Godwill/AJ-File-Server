@@ -16,6 +16,8 @@ router.get('/forgotpassword', viewController.forgot);
 
 router.get('/aj/api/v1/users/resetpassword/:token', viewController.reset);
 
+router.get('/sendMail/:objectName/:receiverEmail');
+
 router.get('/previewer/:prevfile', viewController.preview);
 
 router.get('/', viewController.base);
