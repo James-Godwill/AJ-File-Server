@@ -170,7 +170,7 @@ exports.searchFile = catchAsync(async (req, res, next) => {
 
   const regex = new RegExp(searchResult, 'i'); // i for case insensitive
 
-  const files = await File.find({
+  const files = await File.findOne({
     title: { $regex: regex },
   });
 

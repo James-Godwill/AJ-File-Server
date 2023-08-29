@@ -16,8 +16,17 @@ const resetPassword = async (password, passwordConfirm) => {
       },
     });
 
+    if (res.data.status === 'success') {
+      alert('Password Reset Successful');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
+
     console.log(res);
   } catch (err) {
+    alert(err.response.data.message);
+
     console.log(err);
   }
 };

@@ -12,8 +12,14 @@ const forgotPassword = async (emails) => {
       },
     });
 
+    if (res.data.status === 'success') {
+      alert('Password Reset Email Sending Successful');
+    }
+
     console.log(res);
   } catch (err) {
+    alert(err.response.data.message);
+
     console.log(err.response.data);
   }
 };
